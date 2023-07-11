@@ -144,13 +144,9 @@ contract TimelockController is
     /**
      * @dev See {IERC165-supportsInterface}.
      */
-    function supportsInterface(bytes4 interfaceId)
-        public
-        view
-        virtual
-        override(IERC165, AccessControl)
-        returns (bool)
-    {
+    function supportsInterface(
+        bytes4 interfaceId
+    ) public view virtual override(IERC165, AccessControl) returns (bool) {
         return
             interfaceId == type(IERC1155Receiver).interfaceId ||
             super.supportsInterface(interfaceId);
@@ -160,36 +156,27 @@ contract TimelockController is
      * @dev Returns whether an id correspond to a registered operation. This
      * includes both Pending, Ready and Done operations.
      */
-    function isOperation(bytes32 id)
-        public
-        view
-        virtual
-        returns (bool registered)
-    {
+    function isOperation(
+        bytes32 id
+    ) public view virtual returns (bool registered) {
         return getTimestamp(id) > 0;
     }
 
     /**
      * @dev Returns whether an operation is pending or not.
      */
-    function isOperationPending(bytes32 id)
-        public
-        view
-        virtual
-        returns (bool pending)
-    {
+    function isOperationPending(
+        bytes32 id
+    ) public view virtual returns (bool pending) {
         return getTimestamp(id) > _DONE_TIMESTAMP;
     }
 
     /**
      * @dev Returns whether an operation is ready or not.
      */
-    function isOperationReady(bytes32 id)
-        public
-        view
-        virtual
-        returns (bool ready)
-    {
+    function isOperationReady(
+        bytes32 id
+    ) public view virtual returns (bool ready) {
         uint256 timestamp = getTimestamp(id);
         return timestamp > _DONE_TIMESTAMP && timestamp <= block.timestamp;
     }
@@ -197,12 +184,9 @@ contract TimelockController is
     /**
      * @dev Returns whether an operation is done or not.
      */
-    function isOperationDone(bytes32 id)
-        public
-        view
-        virtual
-        returns (bool done)
-    {
+    function isOperationDone(
+        bytes32 id
+    ) public view virtual returns (bool done) {
         return getTimestamp(id) == _DONE_TIMESTAMP;
     }
 
@@ -210,12 +194,9 @@ contract TimelockController is
      * @dev Returns the timestamp at with an operation becomes ready (0 for
      * unset operations, 1 for done operations).
      */
-    function getTimestamp(bytes32 id)
-        public
-        view
-        virtual
-        returns (uint256 timestamp)
-    {
+    function getTimestamp(
+        bytes32 id
+    ) public view virtual returns (uint256 timestamp) {
         return _timestamps[id];
     }
 
@@ -523,4 +504,3 @@ contract TimelockController is
         return this.onERC1155BatchReceived.selector;
     }
 }
-
